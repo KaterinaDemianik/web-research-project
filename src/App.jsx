@@ -52,6 +52,7 @@ export default function App() {
     const d = new Date(); d.setDate(1); d.setHours(0,0,0,0); return d
   })
   const [cols, setCols] = useState(1)
+  const [showWelcome, setShowWelcome] = useState(() => !localStorage.getItem('tj_welcomed'))
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(entries))
@@ -270,16 +271,37 @@ export default function App() {
     }))
   }
 
+  if (showWelcome) return (
+    <div className="welcome-page">
+      <div className="welcome-card">
+        <span className="welcome-icon">✈️</span>
+        <h1 className="welcome-title">Travel Journal</h1>
+        <p className="welcome-subtitle">
+          Твій особистий щоденник подорожей. Зберігай спогади, плануй нові пригоди та переглядай улюблені місця — навіть офлайн.
+        </p>
+        <div className="welcome-features">
+          <div className="welcome-feature"><span>📍</span><span>Зберігай локації, дати та описи</span></div>
+          <div className="welcome-feature"><span>📸</span><span>Додавай фотографії з підписами</span></div>
+          <div className="welcome-feature"><span>🗓️</span><span>Плануй майбутні подорожі</span></div>
+          <div className="welcome-feature"><span>📶</span><span>Працює офлайн як PWA</span></div>
+        </div>
+        <button className="welcome-btn" onClick={() => { localStorage.setItem('tj_welcomed', '1'); setShowWelcome(false) }}>
+          Розпочати →
+        </button>
+      </div>
+    </div>
+  )
+
   return (
     <div className="container">
       <header>
-        <h1>Travel Journal</h1>
+        <h1>✈️ Travel Journal</h1>
       </header>
 
       {/* Tabs */}
       <div style={{display:'flex',gap:16,marginTop:12,marginBottom:16}}>
-        <button onClick={()=>{setActiveTab('memory'); setForm(f=>({...f, type:'memory'}))}} style={{background: activeTab==='memory'?'#e0e7ff':'#f3f4f6',border:'0',padding:'8px 12px',borderRadius:999,cursor:'pointer'}}>Спогади</button>
-        <button onClick={()=>{setActiveTab('planned'); setForm(f=>({...f, type:'planned'}))}} style={{background: activeTab==='planned'?'#d1fae5':'#f3f4f6',border:'0',padding:'8px 12px',borderRadius:999,cursor:'pointer'}}>Заплановані</button>
+        <button onClick={()=>{setActiveTab('memory'); setForm(f=>({...f, type:'memory'}))}} style={{background: activeTab==='memory'?'#e6f0ea':'#f4f3ef',color: activeTab==='memory'?'#4a7259':'#718096',border: activeTab==='memory'?'1px solid rgba(92,138,110,0.25)':'1px solid rgba(0,0,0,0.08)',padding:'8px 16px',borderRadius:999,cursor:'pointer',fontWeight:600,fontSize:'.9rem'}}>🧳 Спогади</button>
+        <button onClick={()=>{setActiveTab('planned'); setForm(f=>({...f, type:'planned'}))}} style={{background: activeTab==='planned'?'#e6f0ea':'#f4f3ef',color: activeTab==='planned'?'#4a7259':'#718096',border: activeTab==='planned'?'1px solid rgba(92,138,110,0.25)':'1px solid rgba(0,0,0,0.08)',padding:'8px 16px',borderRadius:999,cursor:'pointer',fontWeight:600,fontSize:'.9rem'}}>📌 Заплановані</button>
       </div>
 
       <form onSubmit={addEntry} style={{display:'grid',gap:12,marginBottom:24}}>
@@ -381,8 +403,8 @@ export default function App() {
           <textarea rows={3} value={form.description} onChange={e=>setForm({...form, description:e.target.value})} placeholder="Короткий опис пригод" />
         </label>
         <div style={{display:'flex',gap:8}}>
-          <button type="submit" style={{background:'#0078d4',color:'#fff',border:'0',padding:'10px 14px',borderRadius:8,cursor:'pointer'}}>Додати запис</button>
-          <button type="button" onClick={()=>setEntries([])} style={{background:'#eee',border:'0',padding:'10px 14px',borderRadius:8,cursor:'pointer'}}>Очистити всі</button>
+          <button type="submit" style={{padding:'10px 20px',borderRadius:8,cursor:'pointer'}}>Додати запис</button>
+          <button type="button" onClick={()=>setEntries([])} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'10px 14px',borderRadius:8,cursor:'pointer',color:'#718096'}}>Очистити всі</button>
         </div>
       </form>
 
@@ -390,7 +412,7 @@ export default function App() {
         <>
         <section style={{display:'block',marginBottom:24}}>
           {/* Filters + Calendar Block */}
-          <div className="panel" style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:12,padding:16}}>
+          <div className="panel">
             <div style={{display:'grid',gridTemplateColumns:'minmax(280px, 1fr) 1.2fr',gap:16,alignItems:'start'}}>
               {/* Filters */}
               <div style={{background:'transparent',border:'none',borderRadius:12,padding:0,marginBottom:0}}>
@@ -445,12 +467,12 @@ export default function App() {
               {/* Calendar */}
               <div style={{background:'transparent',border:'none',borderRadius:12,padding:0,marginBottom:0}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-                  <button type="button" onClick={()=>{const d=new Date(calendarMonth); d.setMonth(d.getMonth()-1); setCalendarMonth(d)}} style={{background:'#f3f4f6',border:'0',padding:'6px 10px',borderRadius:8,cursor:'pointer'}}>‹</button>
+                  <button type="button" onClick={()=>{const d=new Date(calendarMonth); d.setMonth(d.getMonth()-1); setCalendarMonth(d)}} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 12px',borderRadius:8,cursor:'pointer',color:'#2d3748'}}>‹</button>
                   <strong>{calendarMonth.toLocaleString('uk-UA',{month:'long', year:'numeric'})}</strong>
-                  <button type="button" onClick={()=>{const d=new Date(calendarMonth); d.setMonth(d.getMonth()+1); setCalendarMonth(d)}} style={{background:'#f3f4f6',border:'0',padding:'6px 10px',borderRadius:8,cursor:'pointer'}}>›</button>
+                  <button type="button" onClick={()=>{const d=new Date(calendarMonth); d.setMonth(d.getMonth()+1); setCalendarMonth(d)}} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 12px',borderRadius:8,cursor:'pointer',color:'#2d3748'}}>›</button>
                 </div>
                 <div style={{display:'flex',justifyContent:'flex-end',marginBottom:6}}>
-                  <button type="button" onClick={()=>setFilters(f=>({...f,dateExact:''}))} style={{background:'#e5e7eb',border:'0',padding:'6px 10px',borderRadius:8,cursor:'pointer',fontSize:12}}>Показати всі</button>
+                  <button type="button" onClick={()=>setFilters(f=>({...f,dateExact:''}))} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 12px',borderRadius:8,cursor:'pointer',fontSize:12,color:'#718096'}}>Показати всі</button>
                 </div>
                 <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:6,fontSize:12,color:'#9ca3af',marginBottom:6}}>
                   {['Пн','Вт','Ср','Чт','Пт','Сб','Нд'].map(d=> <div key={d} style={{textAlign:'center'}}>{d}</div>)}
@@ -462,7 +484,7 @@ export default function App() {
                   for(let i=0;i<startIdx;i++) days.push(null)
                   const last=new Date(calendarMonth); last.setMonth(last.getMonth()+1); last.setDate(0)
                   for(let d=1; d<=last.getDate(); d++) days.push(d)
-                  const cellStyle={border:'1px solid rgba(255,255,255,0.08)',borderRadius:8,minHeight:64,padding:6,display:'grid',alignContent:'start',gap:6}
+                  const cellStyle={border:'1px solid rgba(0,0,0,0.07)',borderRadius:8,minHeight:64,padding:6,display:'grid',alignContent:'start',gap:6,background:'#fff'}
                   const list = entries.filter(e=> e.type===activeTab && e.date)
                   return (
                     <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:6}}>
@@ -471,9 +493,9 @@ export default function App() {
                         const dateStr = `${calendarMonth.getFullYear()}-${String(calendarMonth.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`
                         const count = list.filter(e=> ymd(e.date)===dateStr).length
                         return (
-                          <button key={i} onClick={()=>setFilters(f=>({...f,dateExact: dateStr}))} style={{...cellStyle, background: filters.dateExact===dateStr?'rgba(99,102,241,0.12)':'transparent', cursor:'pointer'}}>
+                          <button key={i} onClick={()=>setFilters(f=>({...f,dateExact: dateStr}))} style={{...cellStyle, background: filters.dateExact===dateStr?'#e6f0ea':'#fff', cursor:'pointer'}}>
                             <div style={{textAlign:'right',color:'#9ca3af'}}>{d}</div>
-                            {count>0 && <div style={{justifySelf:'center',background:'#2563eb',color:'#fff',borderRadius:999,padding:'2px 8px',fontSize:12}}>{count}</div>}
+                            {count>0 && <div style={{justifySelf:'center',background:'#5c8a6e',color:'#fff',borderRadius:999,padding:'2px 8px',fontSize:12}}>{count}</div>}
                           </button>
                         )
                       })}
@@ -564,10 +586,10 @@ export default function App() {
               ) : null)}
             </div>
             <div style={{gridArea:'actions',display:'flex',gap:12,justifyContent:'flex-start',marginTop:4}}>
-              <button onClick={goHome} style={{background:'#f3f4f6',border:'0',padding:'10px 16px',borderRadius:8,cursor:'pointer',height:40}}>Назад</button>
-              <button onClick={()=>openDetails(entry)} style={{background:'#e0f2fe',border:'0',padding:'10px 16px',borderRadius:8,cursor:'pointer',color:'#075985',height:40}}>Редагувати</button>
+              <button onClick={goHome} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'10px 16px',borderRadius:8,cursor:'pointer',height:40,color:'#2d3748'}}>← Назад</button>
+              <button onClick={()=>openDetails(entry)} style={{background:'#e6f0ea',border:'1px solid rgba(92,138,110,0.2)',padding:'10px 16px',borderRadius:8,cursor:'pointer',color:'#4a7259',height:40}}>Редагувати</button>
               {entry.type === 'planned' && (
-                <button onClick={()=>convertToMemory(entry.id)} style={{background:'#ede9fe',border:'0',padding:'10px 16px',borderRadius:8,cursor:'pointer',color:'#5b21b6',height:40}}>Позначити як спогад</button>
+                <button onClick={()=>convertToMemory(entry.id)} style={{background:'#f0ede8',border:'1px solid rgba(0,0,0,0.08)',padding:'10px 16px',borderRadius:8,cursor:'pointer',color:'#6b5740',height:40}}>Позначити як спогад</button>
               )}
             </div>
           </section>
@@ -643,8 +665,8 @@ export default function App() {
               </div>
             </div>
             <div style={{display:'flex',justifyContent:'flex-end',gap:8, padding:16, borderTop:'1px solid #e5e7eb'}}>
-              <button type="button" onClick={closeModal} style={{background:'#eee',border:'0',padding:'10px 14px',borderRadius:8,cursor:'pointer'}}>Скасувати</button>
-              <button type="button" onClick={saveEdit} style={{background:'#0078d4',color:'#fff',border:'0',padding:'10px 14px',borderRadius:8,cursor:'pointer'}}>Зберегти</button>
+              <button type="button" onClick={closeModal} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'10px 14px',borderRadius:8,cursor:'pointer',color:'#718096'}}>Скасувати</button>
+              <button type="button" onClick={saveEdit} style={{background:'#5c8a6e',color:'#fff',border:'none',padding:'10px 14px',borderRadius:8,cursor:'pointer'}}>Зберегти</button>
             </div>
           </div>
         </div>
@@ -654,12 +676,6 @@ export default function App() {
         <div className="footer-inner">© {new Date().getFullYear()} · Всі права захищено · Працює офлайн</div>
       </footer>
 
-      <style>{`
-        input, textarea { width: 100%; padding: 10px 12px; border: 1px solid #e5e7eb; border-radius: 8px; font: inherit; }
-        input:focus, textarea:focus { outline: 2px solid #bfdbfe; border-color: #93c5fd; }
-        label > div { font-size: .9rem; color: #374151; margin-bottom: 6px; }
-        section article { border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; }
-      `}</style>
     </div>
   )
 }

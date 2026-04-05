@@ -17,11 +17,11 @@ export default function JournalEntry({ entry, onDelete, onView, onEdit, onConver
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,flexWrap:'wrap'}}>
         <h3 style={{margin:'4px 0',display:'flex',alignItems:'center',gap:8}}>
           {entry.location}
-          <span style={{fontSize:12,padding:'2px 8px',borderRadius:999,background: entry.type==='planned' ? '#d1fae5' : '#ede9fe', color: entry.type==='planned' ? '#065f46' : '#5b21b6'}}>
+          <span style={{fontSize:12,padding:'2px 8px',borderRadius:999,background: entry.type==='planned' ? '#e6f0ea' : '#eeeae6', color: entry.type==='planned' ? '#4a7259' : '#6b5740'}}>
             {entry.type==='planned' ? 'Заплановано' : 'Спогад'}
           </span>
           {entry.type==='planned' && hasDate && (
-            <span style={{fontSize:12,padding:'2px 8px',borderRadius:999,background: isPast ? '#fee2e2' : (isSoon ? '#fef9c3' : '#e5e7eb'), color: isPast ? '#991b1b' : (isSoon ? '#92400e' : '#374151')}}>
+            <span style={{fontSize:12,padding:'2px 8px',borderRadius:999,background: isPast ? '#fde8e8' : (isSoon ? '#fef3e2' : '#f4f3ef'), color: isPast ? '#a03030' : (isSoon ? '#8a6020' : '#718096')}}>
               {isPast ? 'Минуло' : (isSoon ? 'Наближається' : 'Заплановано')}
             </span>
           )}
@@ -32,8 +32,8 @@ export default function JournalEntry({ entry, onDelete, onView, onEdit, onConver
       </div>
       {entry.type==='planned' && (
         <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:6}}>
-          <button type="button" onClick={onReschedule} style={{background:'#f3f4f6',border:'0',padding:'6px 10px',borderRadius:8,cursor:'pointer',fontSize:12}}>Перенести</button>
-          <button type="button" onClick={onConvert} style={{background:'#ede9fe',border:'0',padding:'6px 10px',borderRadius:8,cursor:'pointer',fontSize:12,color:'#5b21b6'}}>Позначити як спогад</button>
+          <button type="button" onClick={onReschedule} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 10px',borderRadius:8,cursor:'pointer',fontSize:12,color:'#718096'}}>Перенести</button>
+          <button type="button" onClick={onConvert} style={{background:'#eeeae6',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 10px',borderRadius:8,cursor:'pointer',fontSize:12,color:'#6b5740'}}>Позначити як спогад</button>
         </div>
       )}
       {count > 0 ? (
@@ -50,9 +50,9 @@ export default function JournalEntry({ entry, onDelete, onView, onEdit, onConver
       )}
       {current?.caption ? <div style={{fontSize:'.9rem',color:'#4b5563'}}>{current.caption}</div> : (entry.description && <p style={{margin:'8px 0 0'}}>{entry.description}</p>)}
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8,marginTop:12}}>
-        <button onClick={onView} style={{background:'#f3f4f6',border:'0',height:36,borderRadius:8,cursor:'pointer'}}>Переглянути</button>
-        <button onClick={onEdit} style={{background:'#e0f2fe',border:'0',height:36,borderRadius:8,cursor:'pointer',color:'#075985'}}>Редагувати</button>
-        <button onClick={onDelete} style={{background:'#fee2e2',color:'#991b1b',border:'0',height:36,borderRadius:8,cursor:'pointer'}}>Видалити</button>
+        <button onClick={onView} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',height:36,borderRadius:8,cursor:'pointer',color:'#2d3748'}}>Переглянути</button>
+        <button onClick={onEdit} style={{background:'#e6f0ea',border:'1px solid rgba(92,138,110,0.2)',height:36,borderRadius:8,cursor:'pointer',color:'#4a7259'}}>Редагувати</button>
+        <button onClick={onDelete} style={{background:'#fde8e8',color:'#a03030',border:'1px solid rgba(160,48,48,0.15)',height:36,borderRadius:8,cursor:'pointer'}}>Видалити</button>
       </div>
     </article>
   )
