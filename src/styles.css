@@ -132,6 +132,8 @@ footer {
   padding: 52px 24px;
   color: var(--muted);
   text-align: center;
+  grid-column: 1 / -1;
+  width: 100%;
 }
 .empty-state-icon { color: #c8d8ce; }
 
