@@ -32,6 +32,8 @@ header {
   box-shadow: var(--shadow-sm);
 }
 header h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spacing: -0.3px; margin: 0; }
+.header-inner { display: flex; align-items: center; gap: 10px; }
+.header-icon { color: var(--primary); display: flex; align-items: center; }
 
 /* Highlighted panel (Filters + Calendar) */
 .panel {
@@ -121,6 +123,18 @@ footer {
 }
 .footer-inner { max-width: 980px; margin: 0 auto; padding: 0 20px; }
 
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 52px 24px;
+  color: var(--muted);
+  text-align: center;
+}
+.empty-state-icon { color: #c8d8ce; }
+
 /* Badge */
 .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--primary-light); color: var(--primary-dark); border: 1px solid rgba(92,138,110,0.2); font-size: .8rem; }
 
@@ -142,7 +156,17 @@ footer {
   box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
   text-align: center;
 }
-.welcome-icon { font-size: 3.2rem; margin-bottom: 18px; display: block; }
+.welcome-icon-wrap {
+  width: 80px;
+  height: 80px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 22px;
+  color: var(--primary);
+}
 .welcome-title { font-size: 1.9rem; font-weight: 700; color: var(--text); margin: 0 0 10px; letter-spacing: -0.4px; }
 .welcome-subtitle { font-size: .97rem; color: var(--muted); line-height: 1.65; margin: 0 0 28px; }
 .welcome-features { display: grid; gap: 10px; margin-bottom: 32px; text-align: left; }

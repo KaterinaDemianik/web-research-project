@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Plane, BookOpen, MapPin, Camera, Calendar, Wifi, SlidersHorizontal, ChevronLeft, ChevronRight, PlusCircle, ScrollText } from 'lucide-react'
 import JournalEntry from './components/JournalEntry.jsx'
 
 const STORAGE_KEY = 'journalEntries'
@@ -274,16 +275,18 @@ export default function App() {
   if (showWelcome) return (
     <div className="welcome-page">
       <div className="welcome-card">
-        <span className="welcome-icon">✈️</span>
+        <div className="welcome-icon-wrap">
+          <Plane size={36} strokeWidth={1.5} />
+        </div>
         <h1 className="welcome-title">Travel Journal</h1>
         <p className="welcome-subtitle">
           Твій особистий щоденник подорожей. Зберігай спогади, плануй нові пригоди та переглядай улюблені місця — навіть офлайн.
         </p>
         <div className="welcome-features">
-          <div className="welcome-feature"><span>📍</span><span>Зберігай локації, дати та описи</span></div>
-          <div className="welcome-feature"><span>📸</span><span>Додавай фотографії з підписами</span></div>
-          <div className="welcome-feature"><span>🗓️</span><span>Плануй майбутні подорожі</span></div>
-          <div className="welcome-feature"><span>📶</span><span>Працює офлайн як PWA</span></div>
+          <div className="welcome-feature"><MapPin size={18} strokeWidth={1.8} /><span>Зберігай локації, дати та описи</span></div>
+          <div className="welcome-feature"><Camera size={18} strokeWidth={1.8} /><span>Додавай фотографії з підписами</span></div>
+          <div className="welcome-feature"><Calendar size={18} strokeWidth={1.8} /><span>Плануй майбутні подорожі</span></div>
+          <div className="welcome-feature"><Wifi size={18} strokeWidth={1.8} /><span>Працює офлайн як PWA</span></div>
         </div>
         <button className="welcome-btn" onClick={() => { localStorage.setItem('tj_welcomed', '1'); setShowWelcome(false) }}>
           Розпочати →
@@ -295,13 +298,16 @@ export default function App() {
   return (
     <div className="container">
       <header>
-        <h1>✈️ Travel Journal</h1>
+        <div className="header-inner">
+          <div className="header-icon"><Plane size={22} strokeWidth={1.8} /></div>
+          <h1>Travel Journal</h1>
+        </div>
       </header>
 
       {/* Tabs */}
       <div style={{display:'flex',gap:16,marginTop:12,marginBottom:16}}>
-        <button onClick={()=>{setActiveTab('memory'); setForm(f=>({...f, type:'memory'}))}} style={{background: activeTab==='memory'?'#e6f0ea':'#f4f3ef',color: activeTab==='memory'?'#4a7259':'#718096',border: activeTab==='memory'?'1px solid rgba(92,138,110,0.25)':'1px solid rgba(0,0,0,0.08)',padding:'8px 16px',borderRadius:999,cursor:'pointer',fontWeight:600,fontSize:'.9rem'}}>🧳 Спогади</button>
-        <button onClick={()=>{setActiveTab('planned'); setForm(f=>({...f, type:'planned'}))}} style={{background: activeTab==='planned'?'#e6f0ea':'#f4f3ef',color: activeTab==='planned'?'#4a7259':'#718096',border: activeTab==='planned'?'1px solid rgba(92,138,110,0.25)':'1px solid rgba(0,0,0,0.08)',padding:'8px 16px',borderRadius:999,cursor:'pointer',fontWeight:600,fontSize:'.9rem'}}>📌 Заплановані</button>
+        <button onClick={()=>{setActiveTab('memory'); setForm(f=>({...f, type:'memory'}))}} style={{display:'flex',alignItems:'center',gap:6,background: activeTab==='memory'?'#e6f0ea':'#f4f3ef',color: activeTab==='memory'?'#4a7259':'#718096',border: activeTab==='memory'?'1px solid rgba(92,138,110,0.25)':'1px solid rgba(0,0,0,0.08)',padding:'8px 18px',borderRadius:999,cursor:'pointer',fontWeight:600,fontSize:'.9rem'}}><BookOpen size={14} strokeWidth={2} /> Спогади</button>
+        <button onClick={()=>{setActiveTab('planned'); setForm(f=>({...f, type:'planned'}))}} style={{display:'flex',alignItems:'center',gap:6,background: activeTab==='planned'?'#e6f0ea':'#f4f3ef',color: activeTab==='planned'?'#4a7259':'#718096',border: activeTab==='planned'?'1px solid rgba(92,138,110,0.25)':'1px solid rgba(0,0,0,0.08)',padding:'8px 18px',borderRadius:999,cursor:'pointer',fontWeight:600,fontSize:'.9rem'}}><MapPin size={14} strokeWidth={2} /> Заплановані</button>
       </div>
 
       <form onSubmit={addEntry} style={{display:'grid',gap:12,marginBottom:24}}>
@@ -403,7 +409,7 @@ export default function App() {
           <textarea rows={3} value={form.description} onChange={e=>setForm({...form, description:e.target.value})} placeholder="Короткий опис пригод" />
         </label>
         <div style={{display:'flex',gap:8}}>
-          <button type="submit" style={{padding:'10px 20px',borderRadius:8,cursor:'pointer'}}>Додати запис</button>
+          <button type="submit" style={{padding:'10px 20px',borderRadius:8,cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><PlusCircle size={16} /> Додати запис</button>
           <button type="button" onClick={()=>setEntries([])} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'10px 14px',borderRadius:8,cursor:'pointer',color:'#718096'}}>Очистити всі</button>
         </div>
       </form>
@@ -416,6 +422,7 @@ export default function App() {
             <div style={{display:'grid',gridTemplateColumns:'minmax(280px, 1fr) 1.2fr',gap:16,alignItems:'start'}}>
               {/* Filters */}
               <div style={{background:'transparent',border:'none',borderRadius:12,padding:0,marginBottom:0}}>
+                <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:12,color:'#718096',fontSize:'.78rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.06em'}}><SlidersHorizontal size={13} /> Фільтри</div>
                 <div style={{display:'grid',gap:12,gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))',alignItems:'end'}}>
                   <label>
                     <div>Пошук</div>
@@ -466,10 +473,11 @@ export default function App() {
 
               {/* Calendar */}
               <div style={{background:'transparent',border:'none',borderRadius:12,padding:0,marginBottom:0}}>
+                <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:4,color:'#718096',fontSize:'.78rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.06em'}}><Calendar size={13} /> Календар</div>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-                  <button type="button" onClick={()=>{const d=new Date(calendarMonth); d.setMonth(d.getMonth()-1); setCalendarMonth(d)}} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 12px',borderRadius:8,cursor:'pointer',color:'#2d3748'}}>‹</button>
+                  <button type="button" onClick={()=>{const d=new Date(calendarMonth); d.setMonth(d.getMonth()-1); setCalendarMonth(d)}} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 10px',borderRadius:8,cursor:'pointer',color:'#2d3748',display:'flex',alignItems:'center'}}><ChevronLeft size={16} /></button>
                   <strong>{calendarMonth.toLocaleString('uk-UA',{month:'long', year:'numeric'})}</strong>
-                  <button type="button" onClick={()=>{const d=new Date(calendarMonth); d.setMonth(d.getMonth()+1); setCalendarMonth(d)}} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 12px',borderRadius:8,cursor:'pointer',color:'#2d3748'}}>›</button>
+                  <button type="button" onClick={()=>{const d=new Date(calendarMonth); d.setMonth(d.getMonth()+1); setCalendarMonth(d)}} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 10px',borderRadius:8,cursor:'pointer',color:'#2d3748',display:'flex',alignItems:'center'}}><ChevronRight size={16} /></button>
                 </div>
                 <div style={{display:'flex',justifyContent:'flex-end',marginBottom:6}}>
                   <button type="button" onClick={()=>setFilters(f=>({...f,dateExact:''}))} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 12px',borderRadius:8,cursor:'pointer',fontSize:12,color:'#718096'}}>Показати всі</button>
@@ -507,7 +515,13 @@ export default function App() {
           </div>
         </section>
         <section style={{display:'grid',gap:12}}>
-          {entries.length === 0 && <div style={{color:'#6b7280'}}>Поки що немає записів. Додайте перший!</div>}
+          {entries.length === 0 && (
+            <div className="empty-state">
+              <ScrollText size={40} strokeWidth={1.2} className="empty-state-icon" />
+              <div style={{fontWeight:600,fontSize:'1rem',color:'#4a5568'}}>Ще немає записів</div>
+              <div style={{fontSize:'.9rem'}}>Додайте свій перший спогад або заплановану подорож</div>
+            </div>
+          )}
           <div style={{display:'grid',gridTemplateColumns:`repeat(${cols}, 1fr)`,gap:16,width:'100%'}}>
           {entries
             .filter(e=> e.type === activeTab)
@@ -598,8 +612,8 @@ export default function App() {
       {openId && edit && (
         <div role="dialog" aria-modal="true" style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.4)',display:'grid',placeItems:'center',padding:16,zIndex:50}} onClick={closeModal}>
           <div onClick={e=>e.stopPropagation()} style={{background:'#fff',borderRadius:12, maxWidth:800, width:'100%', boxShadow:'0 10px 30px rgba(0,0,0,0.2)', display:'grid', gridTemplateRows:'auto 1fr auto', maxHeight:'90vh'}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:16,borderBottom:'1px solid #e5e7eb'}}>
-              <h2 style={{margin:0,color:'#111827',fontWeight:700,fontSize:'1.25rem'}}>Деталі подорожі</h2>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:16,borderBottom:'1px solid rgba(0,0,0,0.07)'}}>
+              <h2 style={{margin:0,color:'#2d3748',fontWeight:700,fontSize:'1.15rem',display:'flex',alignItems:'center',gap:8}}><Plane size={18} strokeWidth={1.8} style={{color:'#5c8a6e'}} /> Деталі подорожі</h2>
               <button onClick={closeModal} style={{background:'transparent',border:'0',fontSize:22,cursor:'pointer'}}>&times;</button>
             </div>
             <div style={{display:'grid',gap:12, padding:16, overflowY:'auto'}}>
