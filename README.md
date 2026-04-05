@@ -6,7 +6,7 @@
 
  Щоденник подорожей: локація, дата, короткий опис і фото. Працює офлайн і встановлюється як PWA.
 
-- GitHub Pages: 
+- GitHub Pages: https://katerinademianik.github.io/web-research-project/
 
 ## Запуск
 
