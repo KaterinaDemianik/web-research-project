@@ -311,7 +311,7 @@ export default function App() {
       </div>
 
       <form onSubmit={addEntry} style={{display:'grid',gap:12,marginBottom:24}}>
-        <div style={{display:'grid',gap:8,gridTemplateColumns:'1fr 220px',alignItems:'end'}}>
+        <div style={{display:'grid',gap:8,gridTemplateColumns:'1fr 200px',alignItems:'start'}}>
           <div style={{display:'grid',gap:8}}>
             <label>
               <div>Локація</div>
@@ -355,36 +355,39 @@ export default function App() {
               </label>
             </div>
           </div>
-          <label style={{display:'grid',gap:6,alignItems:'center',justifyItems:'center'}}>
-            <div style={{fontSize:'.9rem',color:'#374151',textAlign:'center'}}>Фото (декілька, необов'язково)</div>
+          <label style={{display:'flex',flexDirection:'column',gap:8}}>
+            <div style={{fontSize:'.85rem',color:'#718096',fontWeight:500}}>Фото</div>
             <input ref={fileInputRef} style={{display:'none'}} type="file" accept="image/*" multiple onChange={onFile} />
-            <div style={{display:'flex',gap:8,alignItems:'center',justifyContent:'center',width:'100%'}}>
+            <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}}>
               <button
                 type="button"
                 onClick={()=>fileInputRef.current?.click()}
                 style={{
-                  background:'#ffffff',
-                  border:'1px solid #e5e7eb',
+                  background:'#f9f8f6',
+                  border:'1px solid rgba(0,0,0,0.10)',
                   padding:'10px 14px',
                   borderRadius:8,
                   cursor:'pointer',
-                  color:'#111827',
-                  boxShadow:'0 1px 2px rgba(0,0,0,0.04)',
+                  color:'#2d3748',
                   height:'40px',
                   display:'inline-flex',
                   alignItems:'center',
                   gap:6,
-                  font:'inherit'
+                  font:'inherit',
+                  whiteSpace:'nowrap'
                 }}
-              >Підвантажити ще фото</button>
+              >Обрати фото</button>
               {form.photos?.length > 0 && (
                 <span style={{
                   fontSize:'.8rem',
-                  color:'#3730a3',
-                  background:'#eef2ff',
-                  padding:'3px 8px',
-                  borderRadius:999
-                }}>Додано: {form.photos.length}</span>
+                  color:'#4a7259',
+                  background:'#e6f0ea',
+                  padding:'4px 10px',
+                  borderRadius:999,
+                  fontWeight:600,
+                  whiteSpace:'nowrap',
+                  border:'1px solid rgba(92,138,110,0.2)'
+                }}>{form.photos.length} фото</span>
               )}
             </div>
           </label>
