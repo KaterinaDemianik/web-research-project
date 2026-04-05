@@ -13,6 +13,12 @@ yarn-error.log*
 # OS
 .DS_Store
 
+# Backup copies
+*копія*
+
+# Duplicate config (should only be at root)
+src/vite.config.js
+
 # Env
 .env
 .env.*
