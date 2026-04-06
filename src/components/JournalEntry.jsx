@@ -4,13 +4,15 @@ export default function JournalEntry({ entry, onDelete, onView, onEdit, onConver
   const [idx, setIdx] = useState(0)
   const photos = Array.isArray(entry.photos) ? entry.photos : []
   const count = photos.length
-  const current = count > 0 ? photos[((idx % count) + count) % count] : null
+  const currentIndex = count > 0 ? ((idx % count) + count) % count : -1
+  const current = count > 0 ? photos[currentIndex] : null
   const today = new Date(); today.setHours(0,0,0,0)
   const hasDate = !!entry.date
   const d = hasDate ? new Date(entry.date) : null
   if (d) d.setHours(0,0,0,0)
   const isPast = entry.type==='planned' && hasDate && d < today
   const isSoon = entry.type==='planned' && hasDate && d >= today && ((d - today)/(1000*60*60*24)) <= 7
+  const displayDate = entry.date ? new Date(entry.date).toLocaleDateString() : ''
 
   return (
     <article>
@@ -27,7 +29,7 @@ export default function JournalEntry({ entry, onDelete, onView, onEdit, onConver
           )}
         </h3>
         <div className="meta" style={{color:'#6b7280'}}>
-          {entry.type==='planned' ? (entry.date ? new Date(entry.date).toLocaleDateString() : 'Без дати') : (entry.date ? new Date(entry.date).toLocaleDateString() : '')}
+          {entry.type==='planned' ? (displayDate || 'Без дати') : displayDate}
         </div>
       </div>
       {entry.type==='planned' && (
@@ -38,10 +40,10 @@ export default function JournalEntry({ entry, onDelete, onView, onEdit, onConver
       )}
       {count > 0 ? (
         <div style={{position:'relative', margin:'8px 0'}}>
-          <img src={current.src} alt={`Фото ${((idx%count)+count)%count + 1}`} style={{display:'block',width:'100%',height:220,objectFit:'cover',borderRadius:8,border:'1px solid #e5e7eb'}} />
+          <img src={current.src} alt={`Фото ${currentIndex + 1}`} style={{display:'block',width:'100%',height:220,objectFit:'cover',borderRadius:8,border:'1px solid #e5e7eb'}} />
           <button onClick={()=>setIdx(i=>i-1)} aria-label="Попереднє фото" style={{position:'absolute',left:8,top:'50%',transform:'translateY(-50%)',background:'#ffffffcc',border:'1px solid #e5e7eb',borderRadius:999,padding:'4px 10px',cursor:'pointer'}}>‹</button>
           <button onClick={()=>setIdx(i=>i+1)} aria-label="Наступне фото" style={{position:'absolute',right:8,top:'50%',transform:'translateY(-50%)',background:'#ffffffcc',border:'1px solid #e5e7eb',borderRadius:999,padding:'4px 10px',cursor:'pointer'}}>›</button>
-          <div style={{position:'absolute',right:8,bottom:8,background:'#111827cc',color:'#fff',fontSize:12,padding:'2px 8px',borderRadius:999}}>{((idx%count)+count)%count + 1}/{count}</div>
+          <div style={{position:'absolute',right:8,bottom:8,background:'#111827cc',color:'#fff',fontSize:12,padding:'2px 8px',borderRadius:999}}>{currentIndex + 1}/{count}</div>
         </div>
       ) : (
         entry.photo ? (
