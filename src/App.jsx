@@ -265,8 +265,6 @@ export default function App() {
   function convertToMemory(entryId) {
     setEntries(prev => prev.map(it => {
       if (it.id !== entryId) return it
-      const today = new Date()
-      const ymd = new Date(today.getTime()); ymd.setHours(0,0,0,0)
       const dateStr = it.date ? it.date : new Date().toISOString().slice(0,10)
       return { ...it, type: 'memory', date: dateStr }
     }))
