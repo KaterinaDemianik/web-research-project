@@ -219,17 +219,23 @@ export default function App() {
     })
   }
 
-  function modalRemovePhoto(i) {
-    setEdit(ed => {
-      const next = [...(ed?.photos||[])]
-      next.splice(i,1)
-      return { ...ed, photos: next }
+  function onModalFile(e) {
+    const files = Array.from(e.target.files || [])
+    if (!files.length || !edit) return
+    files.forEach(file => {
+      const reader = new FileReader()
+      reader.onload = () => setEdit(ed => ({ ...ed, photos: [...(ed?.photos||[]), { src: reader.result, caption: '' }] }))
+      reader.readAsDataURL(file)
     })
+  }
+
+  function closeModal() {
+    setOpenId(null)
+    setEdit(null)
   }
 
   function saveEdit() {
     if (!edit) return
-    // planned cannot be in the past (if date provided)
     if (edit.type === 'planned' && edit.date) {
       const today = new Date(); today.setHours(0,0,0,0)
       const dd = new Date(edit.date); dd.setHours(0,0,0,0)
@@ -241,16 +247,9 @@ export default function App() {
       budget: edit.budget !== '' ? Number(edit.budget) : null,
       mood: edit.type === 'memory' ? edit.mood : null
     }
-    // do not persist tagsText helper
     delete normalized.tagsText
     setEntries(prev => prev.map(it => it.id === edit.id ? { ...it, ...normalized } : it))
-    setOpenId(null)
-    setEdit(null)
-  }
-
-  function closeModal() {
-    setOpenId(null)
-    setEdit(null)
+    closeModal()
   }
 
   function goToView(id) {
