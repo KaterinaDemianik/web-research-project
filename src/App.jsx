@@ -8,7 +8,6 @@ export default function App() {
   const [entries, setEntries] = useState(() => {
     try {
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-      // migrate: ensure type
       return Array.isArray(raw) ? raw.map(it => ({
         type: 'type' in it ? it.type : 'memory',
         ...it
@@ -27,7 +26,7 @@ export default function App() {
     type: 'memory',
     category: 'місто',
     tagsText: '',
-    mood: 'ok', // 'bad' | 'ok' | 'super'
+    mood: 'ok',
     budget: ''
   })
 
@@ -38,7 +37,7 @@ export default function App() {
   const [edit, setEdit] = useState(null)
   const [routeId, setRouteId] = useState(null)
   const [viewIndex, setViewIndex] = useState(0)
-  const [activeTab, setActiveTab] = useState('memory') // 'planned' | 'memory'
+  const [activeTab, setActiveTab] = useState('memory')
   const [formError, setFormError] = useState('')
   const [filters, setFilters] = useState({
     q: '',
@@ -69,10 +68,7 @@ export default function App() {
     return () => window.removeEventListener('hashchange', syncRoute)
   }, [])
 
-  useEffect(() => {
-    // reset slider index on route change
-    setViewIndex(0)
-  }, [routeId])
+  useEffect(() => { setViewIndex(0) }, [routeId])
 
   useEffect(() => {
     function computeCols() {
@@ -86,7 +82,6 @@ export default function App() {
     return () => window.removeEventListener('resize', computeCols)
   }, [])
 
-  // Helpers for dates and planned actions
   function ymd(dateStr) {
     try { return new Date(dateStr).toISOString().slice(0,10) } catch { return '' }
   }
@@ -108,8 +103,7 @@ export default function App() {
     const current = entries.find(e=>e.id===entryId)?.date || ''
     const next = window.prompt('Нова дата (YYYY-MM-DD):', current)
     if (!next) return
-    const isValid = /^\d{4}-\d{2}-\d{2}$/.test(next)
-    if (!isValid) { alert('Невірний формат. Використовуйте YYYY-MM-DD'); return }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(next)) { alert('Невірний формат. Використовуйте YYYY-MM-DD'); return }
     setEntries(prev => prev.map(it => it.id === entryId ? { ...it, date: next } : it))
   }
 
@@ -120,7 +114,6 @@ export default function App() {
       setFormError('Вкажіть локацію')
       return
     }
-    // validation by type
     const today = new Date()
     today.setHours(0,0,0,0)
     const hasDate = !!form.date
@@ -186,7 +179,6 @@ export default function App() {
 
   function openDetails(entry) {
     setOpenId(entry.id)
-    // create deep-ish copy for editing
     setEdit({
       id: entry.id,
       type: entry.type || 'memory',
@@ -260,7 +252,6 @@ export default function App() {
     window.location.hash = '#/'
   }
 
-  // helper: convert planned -> memory
   function convertToMemory(entryId) {
     setEntries(prev => prev.map(it => {
       if (it.id !== entryId) return it
@@ -301,7 +292,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* Tabs */}
       <div style={{display:'flex',gap:16,marginTop:12,marginBottom:16}}>
         <button onClick={()=>{setActiveTab('memory'); setForm(f=>({...f, type:'memory'}))}} style={{display:'flex',alignItems:'center',gap:6,background: activeTab==='memory'?'#e6f0ea':'#f4f3ef',color: activeTab==='memory'?'#4a7259':'#718096',border: activeTab==='memory'?'1px solid rgba(92,138,110,0.25)':'1px solid rgba(0,0,0,0.08)',padding:'8px 18px',borderRadius:999,cursor:'pointer',fontWeight:600,fontSize:'.9rem'}}><BookOpen size={14} strokeWidth={2} /> Спогади</button>
         <button onClick={()=>{setActiveTab('planned'); setForm(f=>({...f, type:'planned'}))}} style={{display:'flex',alignItems:'center',gap:6,background: activeTab==='planned'?'#e6f0ea':'#f4f3ef',color: activeTab==='planned'?'#4a7259':'#718096',border: activeTab==='planned'?'1px solid rgba(92,138,110,0.25)':'1px solid rgba(0,0,0,0.08)',padding:'8px 18px',borderRadius:999,cursor:'pointer',fontWeight:600,fontSize:'.9rem'}}><MapPin size={14} strokeWidth={2} /> Заплановані</button>
@@ -417,10 +407,8 @@ export default function App() {
       {!routeId && (
         <>
         <section style={{display:'block',marginBottom:24}}>
-          {/* Filters + Calendar Block */}
           <div className="panel">
             <div style={{display:'grid',gridTemplateColumns:'minmax(280px, 1fr) 1.2fr',gap:16,alignItems:'start'}}>
-              {/* Filters */}
               <div style={{background:'transparent',border:'none',borderRadius:12,padding:0,marginBottom:0}}>
                 <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:12,color:'#718096',fontSize:'.78rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.06em'}}><SlidersHorizontal size={13} /> Фільтри</div>
                 <div style={{display:'grid',gap:12,gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))',alignItems:'end'}}>
@@ -471,7 +459,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Calendar */}
               <div style={{background:'transparent',border:'none',borderRadius:12,padding:0,marginBottom:0}}>
                 <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:4,color:'#718096',fontSize:'.78rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.06em'}}><Calendar size={13} /> Календар</div>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>

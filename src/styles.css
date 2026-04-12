@@ -13,7 +13,6 @@
   --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
 }
 
-/* App shell */
 html, body, #root { height: 100%; }
 body {
   margin: 0;
@@ -25,7 +24,6 @@ body {
 .footer-inner { max-width: 980px; margin: 0 auto; }
 .container { padding: 24px 20px; }
 
-/* Header */
 header {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -37,7 +35,6 @@ header h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spac
 .header-inner { display: flex; align-items: center; gap: 10px; }
 .header-icon { color: var(--primary); display: flex; align-items: center; }
 
-/* Highlighted panel (Filters + Calendar) */
 .panel {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -46,7 +43,6 @@ header h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spac
   box-shadow: var(--shadow-sm);
 }
 
-/* Form */
 form {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -73,7 +69,6 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 3px rgba(92, 138, 110, 0.12);
 }
 
-/* Buttons */
 button { font: inherit; font-weight: 600; cursor: pointer; transition: filter .15s, transform .1s; }
 button:active { transform: scale(0.98); }
 button[type="submit"] {
@@ -94,7 +89,6 @@ button[type="button"] {
 }
 button[type="button"]:hover { background: #ededeb; }
 
-/* Entries grid */
 section { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important }
 section article {
   background: var(--surface);
@@ -109,12 +103,10 @@ section article:hover {
   box-shadow: var(--shadow-md);
 }
 
-/* Entry internals */
 article h3 { font-size: 1.05rem; color: var(--text); }
 article img { border-radius: 10px; border: 1px solid var(--border); }
 article .meta { color: var(--muted); font-size: .85rem; }
 
-/* Footer */
 footer {
   color: var(--muted);
   border-top: 1px solid var(--border);
@@ -125,7 +117,6 @@ footer {
 }
 .footer-inner { padding: 0 20px; }
 
-/* Empty state */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -139,10 +130,8 @@ footer {
 }
 .empty-state-icon { color: #c8d8ce; }
 
-/* Badge */
 .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--primary-light); color: var(--primary-dark); border: 1px solid rgba(92,138,110,0.2); font-size: .8rem; }
 
-/* ── Welcome page ─────────────────────────────────────── */
 .welcome-page {
   min-height: 100vh;
   background: linear-gradient(150deg, #eef4f0 0%, #e8f0eb 45%, #f4f3ef 100%);
