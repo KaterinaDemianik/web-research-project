@@ -13,6 +13,7 @@ export default function JournalEntry({ entry, onDelete, onView, onEdit, onConver
   const isPast = entry.type==='planned' && hasDate && d < today
   const isSoon = entry.type==='planned' && hasDate && d >= today && ((d - today)/(1000*60*60*24)) <= 7
   const displayDate = entry.date ? new Date(entry.date).toLocaleDateString() : ''
+  const btnStyle = {background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 10px',borderRadius:8,cursor:'pointer',fontSize:12,color:'#718096'}
 
   return (
     <article>
@@ -34,7 +35,7 @@ export default function JournalEntry({ entry, onDelete, onView, onEdit, onConver
       </div>
       {entry.type==='planned' && (
         <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:6}}>
-          <button type="button" onClick={onReschedule} style={{background:'#f4f3ef',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 10px',borderRadius:8,cursor:'pointer',fontSize:12,color:'#718096'}}>Перенести</button>
+          <button type="button" onClick={onReschedule} style={btnStyle}>Перенести</button>
           <button type="button" onClick={onConvert} style={{background:'#eeeae6',border:'1px solid rgba(0,0,0,0.08)',padding:'6px 10px',borderRadius:8,cursor:'pointer',fontSize:12,color:'#6b5740'}}>Позначити як спогад</button>
         </div>
       )}
