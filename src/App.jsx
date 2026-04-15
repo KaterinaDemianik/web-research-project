@@ -142,26 +142,27 @@ export default function App() {
     setForm({ location: '', date: '', description: '', photo: '', photos: [], type: activeTab, category:'місто', tagsText:'', mood:'ok', budget:'' })
   }
 
+  function updatePhotos(updater) {
+    setForm(f => ({ ...f, photos: updater(f.photos || []) }))
+  }
+
   function onFile(e) {
     const files = Array.from(e.target.files || [])
     if (!files.length) return
     files.forEach(file => {
       const reader = new FileReader()
       reader.onload = () => {
-        setForm(f => ({
-          ...f,
-          photos: [...(f.photos || []), { src: reader.result, caption: '' }]
-        }))
+        updatePhotos(photos => [...photos, { src: reader.result, caption: '' }])
       }
       reader.readAsDataURL(file)
     })
   }
 
   function updateCaption(index, value) {
-    setForm(f => {
-      const next = [...(f.photos || [])]
+    updatePhotos(photos => {
+      const next = [...photos]
       if (next[index]) next[index] = { ...next[index], caption: value }
-      return { ...f, photos: next }
+      return next
     })
   }
 
