@@ -1,5 +1,5 @@
-const CACHE_NAME = 'travel-journal-cache-v1';
-const urlsToCache = ['.', 'index.html', 'manifest.json'];
+const CACHE_NAME = 'travel-journal-cache-v2';
+const urlsToCache = ['.', 'index.html', 'manifest.json', 'assets/index-CGPZEyo2.js', 'assets/index-YXVK3xY1.css'];
 
 self.addEventListener('install', event => {
   event.waitUntil(
